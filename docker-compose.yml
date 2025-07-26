@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3"
 
 services:
   n8n:
@@ -6,12 +6,7 @@ services:
     restart: always
     ports:
       - "5678:5678"
-    environment:
-      - DB_TYPE=sqlite
-      - GENERIC_TIMEZONE=America/Sao_Paulo
-      - N8N_BASIC_AUTH_ACTIVE=true
-      - N8N_BASIC_AUTH_USER=${N8N_USER}
-      - N8N_BASIC_AUTH_PASSWORD=${N8N_PASSWORD}
-      - WEBHOOK_URL=${WEBHOOK_URL}
+    env_file:
+      - .env
     volumes:
       - ./n8n-data:/home/node/.n8n
