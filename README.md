@@ -1,39 +1,41 @@
-# Projeto: N8N Self-Hosted com Docker e Acesso Remoto
+# n8n + LocalTunnel com Docker (Linux)
 
-Este projeto permite rodar o [n8n](https://n8n.io/) em uma máquina local com Docker e acesso via LocalTunnel ou DuckDNS.
-
-## Estrutura de Arquivos
-
-- `docker-compose.yml`: Define o serviço n8n com SQLite.
-- `.env.example`: Variáveis de ambiente (renomeie para `.env` e edite).
-- `start-localtunnel.sh`: Inicia o LocalTunnel com `nohup` para manter ativo após logout.
+Este projeto configura o n8n em ambiente Linux com Docker e expõe a interface usando LocalTunnel.
 
 ## Pré-requisitos
 
-- Docker
-- Node.js (para usar LocalTunnel)
-- Conta no [DuckDNS](https://www.duckdns.org/) se optar por domínio fixo
+- Linux (Debian/Ubuntu)
+- Docker e Docker Compose instalados
+- Node.js (para LocalTunnel)
 
-## Instruções
+## Instalação
 
 ```bash
-# Clone o repositório
-git clone https://github.com/seuusuario/n8n-selfhosted.git
-cd n8n-selfhosted
-
-# Renomeie e edite o arquivo .env
-cp .env.example .env
-nano .env
-
-# Suba o container
-docker compose up -d
-
-# Acesse via LocalTunnel
-chmod +x start-localtunnel.sh
-./start-localtunnel.sh
+sudo apt update && sudo apt upgrade -y
+sudo apt install docker.io docker-compose nodejs npm curl -y
+sudo npm install -g localtunnel
 ```
 
-## Observações
+## Como usar
 
-- Use `ps aux | grep localtunnel` para verificar se está rodando.
-- O acesso ao n8n será via `https://n8nautomationagency.loca.lt` ou seu domínio DuckDNS.
+1. Clone o repositório
+2. Copie o arquivo `.env.example` para `.env` e edite as variáveis
+3. Suba o n8n com Docker:
+   ```bash
+   docker-compose up -d
+   ```
+4. Execute o script para rodar o LocalTunnel em segundo plano:
+   ```bash
+   chmod +x start-localtunnel.sh
+   ./start-localtunnel.sh
+   ```
+
+## Arquivos
+
+- `docker-compose.yml`: Configuração do Docker para o n8n
+- `.env.example`: Arquivo de exemplo com variáveis de ambiente
+- `start-localtunnel.sh`: Script para iniciar o LocalTunnel via `nohup`
+
+---
+
+**OBS**: Para manter o LocalTunnel sempre rodando mesmo com reinício, considere usar `pm2` ou criar um serviço systemd.
